@@ -1,3 +1,3 @@
 [submodule "src/lib/gazebo-ccpp"]
 	path = src/lib/gazebo-ccpp
-	url = git@github.com:lf-lang/gazebo-ccpp.git
+	url = https://github.com/erlingrj/lf-maze-challenge
