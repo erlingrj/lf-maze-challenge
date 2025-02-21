@@ -103,19 +103,18 @@ This should flood the terminal with LiDAR scan messages.
 
 This repo provides two examples showing how to interact with the simulated robot.
 
-1. Spinning robot:
+1. Spinning robot
+Will simply just make the robot spin:
 ```sh
 lfc src/Spinning.lf
 bin/Spinning
 ```
-Will simply just make the robot spin.
 
 
 2. Random walk
-
+This example will have the robot drive around in random directions:
 ```sh
 lfc src/StupidRobot.lf
 bin/StupidRobot
-``
+```
 
-This example will have the robot drive around in random directions.
