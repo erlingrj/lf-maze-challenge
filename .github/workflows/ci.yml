@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -24,12 +24,12 @@ jobs:
         with:
             submodules: recursive
       - name: Install LF toolchain
-        uses: lf-lang/action-setup-lf@v0.1
+        uses: lf-lang/action-setup-lf@v0.2
         with:
-          lfc-version: stable
+          lfc-version: nightly
           lingo-version: stable
         
-      - name: Install deps
+      - name: Install deps (Ubuntu)
         run: |
           sudo apt-get update
           sudo apt-get install curl lsb-release gnupg
@@ -38,6 +38,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install gz-harmonic
           sudo apt-get install libeigen3-dev
+        if: matrix.os == 'ubuntu-22.04' || matrix.os == 'ubuntu-24.04'
+
+      - name: Install deps (macOS)
+        run: |
+          brew tap osrf/simulation
+          brew install gz-harmonic
+          breq install eigen
+        if: matrix.os == 'macos-latest'
+
       - name: Build examples
         run: |
           lfc src/*.lf
