@@ -13,13 +13,26 @@ Build an Lingua Franca-based controller for an autonomous robot trying to find t
 
 ## Requirements
 - Linux (teste with Ubuntu 24.04)
-- macOS (tested with )
+- macOS (Not tested yet)
+- git
 - A C compiler such as `gcc` or `clang`
 - A recent version of `cmake`
 
 ## Getting started
 
 ### All platforms
+#### Clone this repo
+
+```sh
+git clone git@github.com:erlingrj/lf-maze-challenge.git --recursive
+```
+
+or 
+
+```sh
+git clone https://github.com/erlingrj/lf-maze-challenge.git --recursive
+```
+
 #### Install LFC
 ```sh
 curl -Ls https://install.lf-lang.org | bash -s cli
