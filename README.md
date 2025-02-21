@@ -33,9 +33,9 @@ or
 git clone https://github.com/erlingrj/lf-maze-challenge.git --recursive
 ```
 
-#### Install LFC
+#### Install nightly version of LFC
 ```sh
-curl -Ls https://install.lf-lang.org | bash -s cli
+curl -Ls https://install.lf-lang.org | bash -s cli nightly
 ```
 
 ### Linux/Ubuntu
