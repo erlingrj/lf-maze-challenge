@@ -1,4 +1,15 @@
 # LF Maze Challenge
+![](docs/maze.png)
+
+Build an Lingua Franca-based controller for an autonomous robot trying to find the exit of a maze!
+
+## TODOs:
+- [ ] Test with macOS
+- [ ] Create a Ubuntu VM for Windows people
+- [ ] Add automatic detection of reaching the goal area
+- [ ] Add odometry 
+- [ ] Add example using the lidar scan data
+- [ ] Document the robot (sensors and actuators)
 
 ## Requirements
 - Linux (teste with Ubuntu 24.04)
@@ -73,3 +84,25 @@ gz topic -e -t /lidar --json-output
 ```
 
 This should flood the terminal with LiDAR scan messages.
+
+
+## Examples
+
+This repo provides two examples showing how to interact with the simulated robot.
+
+1. Spinning robot:
+```sh
+lfc src/Spinning.lf
+bin/Spinning
+```
+Will simply just make the robot spin.
+
+
+2. Random walk
+
+```sh
+lfc src/StupidRobot.lf
+bin/StupidRobot
+``
+
+This example will have the robot drive around in random directions.
