@@ -10,6 +10,7 @@ Build an Lingua Franca-based controller for an autonomous robot trying to find t
 - [ ] Add odometry 
 - [ ] Add example using the lidar scan data
 - [ ] Document the robot (sensors and actuators)
+- [ ] Give credits to creators of the Maze model and Turtle bot model
 
 ## Requirements
 - Linux (tested Ubuntu 24.04 and 22.04)
