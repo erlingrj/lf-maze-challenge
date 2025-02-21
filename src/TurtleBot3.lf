@@ -1,0 +1,69 @@
+target CCpp {
+  files: ["models"],
+}
+
+import GazeboBase from "./lib/gazebo-ccpp/src/lib/GazeboBase.lf"
+
+preamble {=
+  #include <gz/msgs/twist.pb.h>
+  #include <gz/msgs/laserscan.pb.h>
+  #include <Eigen/Dense>
+
+  using Eigen::Vector3d;
+=}
+
+
+reactor TurtleBot3(model: string = {=LF_SOURCE_GEN_DIRECTORY "/models/maze.sdf" =}) extends GazeboBase {
+  state velocity_publisher : std::unique_ptr<gz::transport::Node::Publisher>;
+  output laser_scan : std::shared_ptr<gz::msgs::LaserScan>;
+  physical action a_laser_scan: gz::msgs::LaserScan*;
+
+  input velocity: Vector3d
+  input angular_velocity: Vector3d
+
+  preamble {=
+    void *_a_laser_scan;
+    void laser_callback(const gz::msgs::LaserScan &msg) {
+      generic_callback(_a_laser_scan, msg);
+    }
+  =}
+
+
+  reaction(startup) -> a_laser_scan {=
+    _a_laser_scan = (void *) a_laser_scan;
+    std::string scan_topic = "/lidar";
+    
+    lf_set_destructor(a_laser_scan, cpp_delete<gz::msgs::LaserScan>);
+  
+    if (!self->node->Subscribe(scan_topic, laser_callback))
+    {
+      lf_print_error_and_exit("Error subscribing to topic %s", scan_topic.c_str());
+    }
+
+    self->velocity_publisher = std::make_unique<gz::transport::Node::Publisher>(
+      self->node->Advertise<gz::msgs::Twist>("/cmd_vel")
+    );
+  =}
+
+  reaction(a_laser_scan) -> laser_scan {=
+    gz::msgs::Time stamp = a_laser_scan->value->header().stamp();
+    instant_t ts = SEC(stamp.sec()) + NSEC(stamp.nsec());
+    // lf_print("Received laser scan with: tag=%ld ts=%ld", lf_time_logical(), ts);
+    lf_set(laser_scan, std::make_shared<gz::msgs::LaserScan>(*a_laser_scan->value));
+  =}
+
+  reaction(velocity, angular_velocity) {=
+    gz::msgs::Twist twist;
+    if (velocity->is_present) {
+      twist.mutable_linear()->set_x(velocity->value(0));
+      twist.mutable_linear()->set_y(velocity->value(1));
+      twist.mutable_linear()->set_z(velocity->value(2));
+    }
+
+    if(angular_velocity->is_present) {
+      twist.mutable_angular()->set_z(angular_velocity->value(2));
+    }
+
+    self->velocity_publisher->Publish(twist);
+  =}
+}

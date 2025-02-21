@@ -1,0 +1,42 @@
+target CCpp
+
+preamble {=
+  #include <gz/msgs/laserscan.pb.h>
+  #include <Eigen/Dense>
+  using Eigen::Vector3d;
+=}
+
+reactor TurtleBotController {
+  input laser_scan : std::shared_ptr<gz::msgs::LaserScan>;
+  output velocity: Vector3d
+  output angular_velocity: Vector3d
+}
+
+
+reactor RandomWalkController(
+  speed: double = 5.0,
+  spin_speed: double = 10.0
+)extends TurtleBotController {
+
+  timer start (1 sec)
+  timer change_direction (2 sec, 3 sec)
+
+  logical action stop_spinning
+  logical action start_again
+
+  reaction(start, start_again) -> velocity {=
+    lf_set(velocity, Vector3d(self->speed,0,0));
+  =}
+
+  reaction(change_direction) -> velocity, angular_velocity, stop_spinning {=
+    lf_set(velocity, Vector3d(0,0,0));
+    lf_set(angular_velocity, Vector3d(0,0,self->spin_speed));
+    interval_t spin_for = MSEC(500) + rand() % SEC(2);
+    lf_schedule(stop_spinning, spin_for);
+  =}
+
+  reaction(stop_spinning) -> angular_velocity, start_again {=
+    lf_set(angular_velocity, Vector3d(0,0,0));
+    lf_schedule(start_again, MSEC(100)); 
+   =}
+}

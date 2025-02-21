@@ -1,0 +1,8 @@
+target CCpp
+
+main reactor {
+  timer t (0, 1sec)
+  reaction(t) {=
+    lf_print("Hello World. Elapsed time is: " PRINTF_TIME, lf_time_logical_elapsed()); 
+  =}
+}

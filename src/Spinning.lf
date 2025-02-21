@@ -1,0 +1,19 @@
+target CCpp {
+  keepalive: true,
+}
+
+import TurtleBot3 from "./TurtleBot3.lf"
+
+
+main reactor {
+  turtle = new TurtleBot3();
+  timer t (1 sec)
+
+  reaction(turtle.laser_scan) {=
+  =}
+
+  reaction(t) -> turtle.angular_velocity {=
+    Vector3d angular_velocity(0, 0, 10);
+    lf_set(turtle.angular_velocity, angular_velocity);
+  =}
+}

@@ -1,0 +1,13 @@
+target CCpp
+
+import TurtleBot3 from "./TurtleBot3.lf"
+import RandomWalkController from "./TurtleBotController.lf"
+
+main reactor {
+  robot = new TurtleBot3()
+  controller = new RandomWalkController()
+
+  robot.laser_scan -> controller.laser_scan
+  controller.velocity -> robot.velocity
+  controller.angular_velocity -> robot.angular_velocity
+}
