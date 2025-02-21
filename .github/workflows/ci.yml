@@ -44,7 +44,7 @@ jobs:
         run: |
           brew tap osrf/simulation
           brew install gz-harmonic
-          breq install eigen
+          brew install eigen
         if: matrix.os == 'macos-latest'
 
       - name: Build examples

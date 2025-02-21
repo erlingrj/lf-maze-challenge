@@ -12,7 +12,7 @@ Build an Lingua Franca-based controller for an autonomous robot trying to find t
 - [ ] Document the robot (sensors and actuators)
 
 ## Requirements
-- Linux (teste with Ubuntu 24.04)
+- Linux (tested Ubuntu 24.04 and 22.04)
 - macOS (Not tested yet)
 - git
 - A C compiler such as `gcc` or `clang`
